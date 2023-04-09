@@ -1,0 +1,20 @@
+\usetikzlibrary{
+    arrows.meta,% [>=Triangle]
+    fit,        % [fit=...]
+    positioning % [right=of ...]
+}
+
+\tikzset{box/.style={draw, minimum size=2em, text width=3em, text centered},
+    container/.style={draw, inner sep=20pt}
+}
+
+\begin{tikzpicture}[>=Triangle]
+\node (PubKey1) [box, text width=5em] {Owner 1's \\ Public Key};
+\node (Hash1) [below=of PubKey1][box] {Hash};
+\node (Sig0) [below=of Hash1][box, text width=5em] {Owner 0's \\ Signature};
+\draw [->] (Hash1) -- (Sig0);
+\draw [->] (Hash1.45 |- PubKey1.south) -- (Hash1.45);
+\node (Tx1) [fit=(PubKey1)(Hash1)(Sig0)][container, label={[shift={(15ex,-4ex)}]north west:Transaction}]{};
+
+\node (PrivKey1) [below=of Tx1] [draw] {Owner 1's \\ Private Key};
+\end{tikzpicture}
