@@ -10,22 +10,16 @@
     container/.style={inner sep=20pt}
 }
 
-\node (PrevHash) [box] at (-3, 1) {PrevHash};
-\node (Nonce) [box] [right=0.3cm of PrevHash] {Nonce};
-\node (Tx1) [box] [below=0.3cm of PrevHash]{Tx};
-\node (Tx2) [box] [right=0.3cm of Tx1] {Tx};
-\node (Tx3) [box] [right=0.3cm of Tx2] {...};
-\node (Container) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(PrevHash)(Tx1)(Tx2)(Tx3)] {};
-\draw (Container.north west) -- (Container.south west) -- (Container.south east) -- (Container.north east);
+\foreach \i / \x in {0/-3, 1/3} {
+    \node (P\i-PrevHash) [box] at (\x, 1) {PrevHash};
+    \node (Nonce) [box] [right=0.3cm of P\i-PrevHash] {Nonce};
+    \node (Tx1) [box] [below=0.3cm of P\i-PrevHash]{Tx};
+    \node (Tx2) [box] [right=0.3cm of Tx1] {Tx};
+    \node (Tx3) [box] [right=0.3cm of Tx2] {...};
+    \node (P\i-Container) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(P\i-PrevHash)(Tx1)(Tx2)(Tx3)] {};
+    \draw (P\i-Container.north west) -- (P\i-Container.south west) -- (P\i-Container.south east) -- (P\i-Container.north east);
+}
 
-\node (PPrevHash) [box] at (3, 1) {PPrevHash};
-\node (NNonce) [box] [right=0.3cm of PPrevHash] {Nonce};
-\node (TTx1) [box] [below=0.3cm of PPrevHash]{Tx};
-\node (TTx2) [box] [right=0.3cm of TTx1] {Tx};
-\node (TTx3) [box] [right=0.3cm of TTx2] {...};
-\node (CContainer) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(PPrevHash)(TTx1)(TTx2)(TTx3)] {};
-\draw (CContainer.north west) -- (CContainer.south west) -- (CContainer.south east) -- (CContainer.north east);
-
-\draw [<-] (PrevHash.west) --+ (-2, 0);
-\draw [->] (Container.east |- PPrevHash.west) -- (PPrevHash.west);
+\draw [<-] (P0-PrevHash.west) --+ (-2, 0);
+\draw [->] (P0-Container.east |- P1-PrevHash.west) -- (P1-PrevHash.west);
 \end{tikzpicture}
