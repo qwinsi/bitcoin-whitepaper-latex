@@ -9,23 +9,17 @@
     container/.style={draw, inner sep=20pt}
 }
 
-\node (Hash) [box] at (-2, 1.5) {Hash};
-\node (Item1) [box] at (-3, 0){Item};
-\node (Item2) [box] [right=0.3cm of Item1] {Item};
-\node (Item3) [box] [right=0.3cm of Item2] {...};
-\node (Container) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(Item1)(Item2)(Item3)] {};
+\foreach \i / \x in {0/-2, 1/4} {
+    \node (P\i-Hash) [box] at (\x, 1.5) {Hash};
+    \node (Item1) [box] at (\x - 1, 0){Item};
+    \node (Item2) [box] [right=0.3cm of Item1] {Item};
+    \node (Item3) [box] [right=0.3cm of Item2] {...};
+    \node (Container) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(Item1)(Item2)(Item3)] {};
 
-\draw [->] (Container.north west)+(1, 0) |- ([yshift=-4]Hash.west);
+    \draw [->] (Container.north west)+(1, 0) |- ([yshift=-4]P\i-Hash.west);
+}
 
-\node (HHash) [box] at (4, 1.5) {Hash};
-\node (IItem1) [box] at(3, 0) {Item};
-\node (IItem2) [box] [right=0.3cm of IItem1] {Item};
-\node (IItem3) [box] [right=0.3cm of IItem2] {...};
-\node (CContainer) [container] [label={[shift={(8ex,-4ex)}]north west:Block}, fit=(IItem1)(IItem2)(IItem3)] {};
-
-\draw [->] (CContainer.north west)+(1, 0) |- ([yshift=-4]HHash.west);
-
-\draw [<-] ([yshift=4]Hash.west) --+ (-3, 0);
-\draw [->] ([yshift=4]Hash.east) -- ([yshift=4]HHash.west);
-\draw [->] ([yshift=4]HHash.east) --+ (3, 0);
+\draw [<-] ([yshift=4]P0-Hash.west) --+ (-3, 0);
+\draw [->] ([yshift=4]P0-Hash.east) -- ([yshift=4]P1-Hash.west);
+\draw [->] ([yshift=4]P1-Hash.east) --+ (3, 0);
 \end{tikzpicture}
