@@ -9,12 +9,21 @@
 }
 
 \begin{tikzpicture}[>=Triangle]
-\node (PubKey1) [box, text width=5em] {Owner 1's \\ Public Key};
-\node (Hash1) [below=of PubKey1][box] {Hash};
-\node (Sig0) [below=of Hash1][box, text width=5em] {Owner 0's \\ Signature};
-\draw [->] (Hash1) -- (Sig0);
-\draw [->] (Hash1.45 |- PubKey1.south) -- (Hash1.45);
-\node (Tx1) [fit=(PubKey1)(Hash1)(Sig0)][container, label={[shift={(15ex,-4ex)}]north west:Transaction}]{};
+\foreach[evaluate={\prev=int(\i - 1)}] \i in {1, 2, 3} {
+    \node (P\i-PubKey) at (\i * 5, 0) [box, text width=5em] {Owner \i's \\ Public Key};
+    \node (P\i-Hash) [below=0.8cm of P\i-PubKey][box] {Hash};
+    \node (P\i-Sig) [below=of P\i-Hash][box, text width=5em] {Owner \prev's \\ Signature};
+    \draw [->] (P\i-Hash) -- (P\i-Sig);
+    \draw [->] (P\i-Hash.45 |- P\i-PubKey.south) -- (P\i-Hash.45);
+    \node (P\i-Tx) [fit=(P\i-PubKey)(P\i-Hash)(P\i-Sig)][container, label={[shift={(15ex,-4ex)}]north west:Transaction}]{};
+    \node (P\i-PrivKey) [below=of P\i-Tx] [box, text width=6em] {Owner \i's \\ Private Key};
+}
 
-\node (PrivKey1) [below=of Tx1] [draw] {Owner 1's \\ Private Key};
+\draw [->] ([xshift=-2.5cm, yshift=0.5cm]P1-Hash.north) -| ([xshift=-0.3cm]P1-Hash.north);
+
+\foreach[evaluate={\next=int(\i + 1)}] \i in {1, 2} {
+    \draw [->, dashed] (P\i-PubKey.330) -- (P\i-PubKey.330 |- P\i-Hash.south east) -- node[sloped]{Verify} (P\next-Sig.165);
+    \draw [->, dashed] (P\i-PrivKey.15) -- node[sloped]{Sign} (P\next-Sig.195);
+    \draw [->] ([yshift=0.5cm]P\i-Hash.north -| P\i-Tx.east) -| ([xshift=-0.3cm]P\next-Hash.north);
+}
 \end{tikzpicture}
