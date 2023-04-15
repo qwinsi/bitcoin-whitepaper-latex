@@ -1,0 +1,42 @@
+\usetikzlibrary{
+    arrows.meta,% [>=Triangle]
+    fit,        % [fit=...]
+    positioning % [right=of ...]
+}
+
+\tikzset{box/.style={draw, minimum size=2em, text centered},
+    container/.style={inner sep=16pt}
+}
+
+% Prevent childs from overlepping.  https://tex.stackexchange.com/a/60579/264984
+\tikzstyle{level 1}=[<-, sibling distance=24mm]
+\tikzstyle{level 2}=[<-, sibling distance=16mm]
+
+\begin{tikzpicture}[>=Triangle]
+\node at (0, 2.4) {Longest Proof-of-Work Chain};
+
+\foreach \i / \x in {0/0, 1/5.5, 2/11} {
+    \node (P\i-PrevHash) [box] at (\x, 1) {Prev Hash};
+    \node (Nonce) [box] [right=0.3cm of P\i-PrevHash] {Nonce};
+    \node (P\i-MerkleRoot) [below=0.3cm of P\i-PrevHash] [draw]{Merkle Root};
+    \node (P\i-Container) [container] [draw] [label={[shift={(16ex,-3ex)}]north west:Block Header}, fit=(P\i-PrevHash)(Nonce)(P\i-MerkleRoot)] {};
+}
+
+\foreach[evaluate={\next=int(\i + 1)}] \i in {0, 1} {
+    \draw [->] (P\i-Container.east |- P\next-PrevHash.west) -- (P\next-PrevHash.west);
+}
+\draw [<-] (P0-PrevHash.west) --+ (-1.2, 0);
+\draw [->] (P2-Container.east |- P2-PrevHash.west) --+ (0.8, 0);
+
+\node at (P1-MerkleRoot) {\phantom{P1-MerkleRoot}}
+child {node (Hash01) [draw]{Hash01}}
+child {node (Hash23) [draw, dashed]{Hash23}
+    child {node (Hash2) [draw]{Hash2}}
+    child {node (Hash3) [draw, dashed]{Hash3}}
+};
+
+\node (Tx3) [below=of Hash3] [draw] {Tx3};
+\draw [->] (Tx3) -- (Hash3);
+\path [->] (Hash3) -- node[right=0.6]{Merkle Branch for Tx3} (Hash23);
+
+\end{tikzpicture}

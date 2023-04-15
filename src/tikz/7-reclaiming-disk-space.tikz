@@ -15,12 +15,12 @@ positioning % [right=of ...]
 \begin{scope}[xshift=0cm]
     \node (RootHash) [draw]{Root Hash}
     child {node [draw, dashed]{Hash01}
-    child {node (Hash0) [draw, dashed]{Hash0}}
-    child {node (Hash1) [draw, dashed]{Hash1}}
+        child {node (Hash0) [draw, dashed]{Hash0}}
+        child {node (Hash1) [draw, dashed]{Hash1}}
     }
     child {node [draw, dashed]{Hash23}
-    child {node (Hash2) [draw, dashed]{Hash2}}
-    child {node (Hash3) [draw, dashed]{Hash3}}
+        child {node (Hash2) [draw, dashed]{Hash2}}
+        child {node (Hash3) [draw, dashed]{Hash3}}
     };
 
     \node (Tx0) [below=of Hash0] [draw, inner sep=9] {Tx0};
