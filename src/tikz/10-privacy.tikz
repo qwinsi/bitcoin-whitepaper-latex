@@ -1,0 +1,36 @@
+\usetikzlibrary{
+    arrows.meta,% [>=Triangle]
+    fit,        % [fit=...]
+    positioning % [right=of ...]
+}
+
+\tikzset{box/.style={draw, minimum size=3em, text centered, text width=6em}}
+
+
+\begin{tikzpicture}[>=Triangle]
+\node at (0.5, 1) {Traditional Privacy Mode};
+\node (Identities) at (0, 0)  [box] {Identities};
+\node (Transactions) [box, right=of Identities] {Transactions};
+\node (TrustedThirdParty) [box, right=of Transactions] {Trusted\\Third Party};
+\node (Counterparty) [box, right=of TrustedThirdParty] {Counterparty};
+\node (Public) [box, right=of Counterparty] {Public};
+
+\draw (Identities) -- (Transactions);
+\draw [->] (Transactions) -- (TrustedThirdParty);
+\draw [->] (TrustedThirdParty) -- (Counterparty);
+\path (Counterparty) -- node (Midway)[midway] {} (Public);
+\draw (Midway)++(0, 0.8) --+ (0, -1.6);
+\end{tikzpicture}
+
+\bigskip
+
+\begin{tikzpicture}[>=Triangle]
+\node at (0.5, 1) {New Privacy Model};
+\node (Identities) at (0, 0)  [box] {Identities};
+\node (Transactions) [box, right=of Identities] {Transactions};
+\node (Public) [box, right=of Transactions] {Public};
+
+\draw [->] (Transactions) -- (Public);
+\path (Identities) -- node (Midway)[midway] {} (Transactions);
+\draw (Midway)++(0, 0.8) --+ (0, -1.6);
+\end{tikzpicture}
