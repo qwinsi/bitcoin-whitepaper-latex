@@ -1,4 +1,4 @@
-# LaTeX Reproduction of the Bitcoin Whitepaper
+# LaTeX Recreation of the Bitcoin Whitepaper
 
 This repository contains a LaTeX version of the Bitcoin whitepaper.
 
